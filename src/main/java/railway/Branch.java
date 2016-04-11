@@ -5,5 +5,5 @@ package railway;
  * that can connect junctions to sections on a railway track.
  */
 public enum Branch {
-	FACING, NORMAL, REVERSE
+	FACING, NORMAL, REVERSE;
 }

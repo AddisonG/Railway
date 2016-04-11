@@ -2,30 +2,24 @@ package railway;
 
 /**
  * <p>
- * An immutable class used to identify a junction and one of its branches on a
- * railway track.
+ * An immutable class used to identify a junction and one of its branches on a railway track.
  * </p>
  */
 public class JunctionBranch {
 	
-	// the junction and its branch
-	private Junction junction;
-	private Branch branch;
+	private final Junction junction;
+	private final Branch branch;
 	
 	/*
 	 * invariant: junction!= null && branch != null
 	 */
 	
 	/**
-	 * Creates a new instance of this class representing the given junction and
-	 * its branch.
+	 * Creates a new instance of this class representing the given junction and its branch.
 	 * 
-	 * @param junction
-	 *            the Junction of this pair
-	 * @param branch
-	 *            the Branch of this pair
-	 * @throws NullPointerException
-	 *             if either parameter is null
+	 * @param junction - The Junction of this pair
+	 * @param branch - The Branch of this pair
+	 * @throws NullPointerException If either parameter is null
 	 */
 	public JunctionBranch(Junction junction, Branch branch) throws NullPointerException {
 		if (junction == null || branch == null) {
@@ -54,16 +48,14 @@ public class JunctionBranch {
 	}
 	
 	/**
-	 * Returns a string of the form
-	 * 
-	 * "(JUNCTIONSTRING, BRANCHSTRING)"
+	 * Returns a string of the form: "(JUNCTION, BRANCH)"
 	 * 
 	 * where JUNCTIONSTRING is the string representation of the junction, and
 	 * BRANCHSTRING is the string representation of the branch of this pair.
 	 */
 	@Override
 	public String toString() {
-		return "(" + junction + ", " + branch + ")";
+		return String.format("(%s, %s)", junction, branch);
 	}
 	
 	/**
@@ -81,10 +73,8 @@ public class JunctionBranch {
 	
 	@Override
 	public int hashCode() {
-		// creates a polynomial hash-code based on the fields of the class.
-		final int prime = 31; // an odd base prime
-		int result = 1; // the hash code under construction
-		result = prime * result + junction.hashCode();
+		final int prime = 31;
+		int result = prime + junction.hashCode();
 		result = prime * result + branch.hashCode();
 		return result;
 	}

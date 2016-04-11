@@ -2,7 +2,10 @@ package railway.test;
 
 import railway.*;
 
+import static org.junit.Assert.*;
+
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -11,7 +14,23 @@ import org.junit.Test;
  * A more extensive test suite will be performed for assessment of your code,
  * but this should get you started writing your own unit tests.
  */
+@SuppressWarnings("unused") // FOR NOW...
 public class LocationTest {
+	
+	private static final Junction A = new Junction("A");
+	private static final JunctionBranch A1 = new JunctionBranch(A, Branch.NORMAL);
+	private static final JunctionBranch A2 = new JunctionBranch(A, Branch.FACING);
+	private static final JunctionBranch A3 = new JunctionBranch(A, Branch.REVERSE);
+	
+	private static final Junction B = new Junction("B");
+	private static final JunctionBranch B1 = new JunctionBranch(B, Branch.NORMAL);
+	private static final JunctionBranch B2 = new JunctionBranch(B, Branch.FACING);
+	private static final JunctionBranch B3 = new JunctionBranch(B, Branch.REVERSE);
+	
+	private static final Junction C = new Junction("C");
+	private static final JunctionBranch C1 = new JunctionBranch(C, Branch.NORMAL);
+	private static final JunctionBranch C2 = new JunctionBranch(C, Branch.FACING);
+	private static final JunctionBranch C3 = new JunctionBranch(C, Branch.REVERSE);
 	
 	/** Test construction of a typical location that is not at a junction */
 	@Test
@@ -29,31 +48,30 @@ public class LocationTest {
 		Location location = new Location(section, endPoint, offset);
 		
 		// check the section, end-point and offset of the location
-		Assert.assertEquals(section, location.getSection());
-		Assert.assertEquals(endPoint, location.getEndPoint());
-		Assert.assertEquals(offset, location.getOffset());
+		assertEquals(section, location.getSection());
+		assertEquals(endPoint, location.getEndPoint());
+		assertEquals(offset, location.getOffset());
 		
 		// check whether or not this location is at a junction
-		Assert.assertFalse(location.atAJunction());
+		assertFalse(location.atAJunction());
 		
 		// the location is not at a junction: test that the location is on a
 		// section equivalent to location.getSection()
 		Section equivalentSection = new Section(length, endPoint1, endPoint2);
-		Assert.assertTrue(location.onSection(equivalentSection));
+		assertTrue(location.onSection(equivalentSection));
 		
-		// the location is not at a junction: check that it is not on some other
-		// section
+		// the location is not at a junction: check that it is not on some other section
 		Section anotherSection = new Section(10, new JunctionBranch(new Junction("j1"), Branch.NORMAL),
 				new JunctionBranch(new Junction("j3"), Branch.FACING));
-		Assert.assertFalse(location.onSection(anotherSection));
+		assertFalse(location.onSection(anotherSection));
 		
 		// check that the string representation is correct
 		String actualString = location.toString();
 		String expectedString = "Distance 3 from j1 along the FACING branch";
-		Assert.assertEquals(expectedString, actualString);
+		assertEquals(expectedString, actualString);
 		
 		// check that the class invariant has been established.
-		Assert.assertTrue("Invariant incorrect", location.checkInvariant());
+		assertTrue("Invariant incorrect", location.checkInvariant());
 	}
 	
 	/**
@@ -75,40 +93,85 @@ public class LocationTest {
 		Location location = new Location(section, endPoint, offset);
 	}
 	
+	/**
+	 * Tests that two different section objects between the same two points are equal when:<br>
+	 * They have their parameters swapped.
+	 */
+	@Test
+	public void sectionSwapTest() {
+		Section original = new Section(1, A1, B1);
+		Section swapped = new Section(1, B1, A1);
+		
+		assertEquals("It's the same section if it's between the same JunctionBranches.", original, swapped);
+		assertNotEquals(original.hashCode(), swapped.hashCode());
+	}
+	
+	/**
+	 * Tests that two different section objects between the same two points are not equal when:<br>
+	 * They have different lengths.
+	 */
+	@Test
+	public void sectionLengthTest() {
+		// I don't think this is logically possible without a rip in space/time.
+		Section shorter = new Section(1, A1, B1);
+		Section longer = new Section(1000, A1, B1);
+		
+		assertNotEquals("Lengths are different == sections are different.", shorter, longer);
+		assertNotEquals(shorter.hashCode(), longer.hashCode());
+	}
+	
+	/**
+	 * Tests that two different section objects between the same two points are not equal when:<br>
+	 * The junctions have different branches.
+	 */
+	@Test
+	public void sectionBranchTest2() {
+		Section first = new Section(1, A1, B1);
+		Section second = new Section(1, A2, B1);
+		Section third = new Section(1, A1, B2);
+		Section fourth = new Section(1, A2, B2);
+		
+		assertNotEquals("The sections are not the same if the .", first, second);
+		assertNotEquals("Lengths are different, sections are different.", first, third);
+		assertNotEquals("Lengths are different, sections are different.", first, fourth);
+		assertNotEquals("Lengths are different, sections are different.", second, third);
+		assertNotEquals("Lengths are different, sections are different.", second, fourth);
+		assertNotEquals("Lengths are different, sections are different.", third, fourth);
+	}
+	
 	/** Basic check of the equals method */
 	@Test
-	public void testEquals() {
-		
+	public void originalTest() { // FIXME totally broken, sorry. butchering into many tests.
 		// parameters used to construct the locations under test
-		JunctionBranch endPoint1 = new JunctionBranch(new Junction("j1"), Branch.FACING);
-		JunctionBranch endPoint2 = new JunctionBranch(new Junction("j2"), Branch.NORMAL);
-		JunctionBranch endPoint3 = new JunctionBranch(new Junction("j1"), Branch.REVERSE);
-		JunctionBranch endPoint4 = new JunctionBranch(new Junction("j3"), Branch.FACING);
+		JunctionBranch A1 = new JunctionBranch(new Junction("A"), Branch.FACING);
+		JunctionBranch A2 = new JunctionBranch(new Junction("A"), Branch.REVERSE);
+		JunctionBranch B = new JunctionBranch(new Junction("B"), Branch.NORMAL);
+		JunctionBranch C = new JunctionBranch(new Junction("C"), Branch.FACING);
 		
-		Section section1 = new Section(9, endPoint1, endPoint2);
-		Section section2 = new Section(12, endPoint3, endPoint4);
+		Section section1 = new Section(5, A1, B);
+		Section section2 = new Section(5, A1, B);
 		
 		// equal case: the locations are both at the same junction
-		Location location1 = new Location(section1, endPoint1, 0);
-		Location location2 = new Location(section2, endPoint3, 0);
-		Assert.assertEquals(location1, location2);
+		Location location1 = new Location(section1, A1, 0);
+		Location location2 = new Location(section2, A2, 0);
+		assertEquals(location1, location2);
 		
 		// equal case: the locations are not at a junction: but they have
 		// equivalent end-points and non-zero offsets.
-		location1 = new Location(section1, endPoint1, 3);
+		location1 = new Location(section1, A1, 3);
 		location2 = new Location(section1, new JunctionBranch(new Junction("j1"), Branch.FACING), 3);
-		Assert.assertEquals(location1, location2);
+		assertEquals(location1, location2);
 		
 		// equal case: the locations are not at a junction: they are the same
 		// location described from opposite end-points of the same section.
-		location1 = new Location(section1, endPoint1, 3);
-		location2 = new Location(section1, endPoint2, 6);
-		Assert.assertEquals(location1, location2);
-		Assert.assertEquals(location1.hashCode(), location2.hashCode());
+		location1 = new Location(section1, A1, 3);
+		location2 = new Location(section1, B, 6);
+		assertEquals(location1, location2);
+		assertEquals(location1.hashCode(), location2.hashCode());
 		
 		// unequal case: basic case
-		location1 = new Location(section1, endPoint1, 3);
-		location2 = new Location(section1, endPoint2, 4);
-		Assert.assertNotEquals(location1, location2);
+		location1 = new Location(section1, A1, 3);
+		location2 = new Location(section1, B, 4);
+		assertNotEquals(location1, location2);
 	}
 }
