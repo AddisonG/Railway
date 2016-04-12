@@ -68,12 +68,12 @@ public class JunctionBranch {
 			return false;
 		}
 		JunctionBranch other = (JunctionBranch) object; // the pair to compare
-		return (this.junction.equals(other.junction) && this.branch.equals(other.branch));
+		return (junction.equals(other.junction) && branch.equals(other.branch));
 	}
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		final int prime = 43;
 		int result = prime + junction.hashCode();
 		result = prime * result + branch.hashCode();
 		return result;

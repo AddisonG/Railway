@@ -25,7 +25,7 @@ public class Junction {
 		if (jId == null) {
 			throw new NullPointerException("The Junction Identifier cannot be null.");
 		}
-		this.junctionIdentifier = jId;
+		junctionIdentifier = jId;
 	}
 	/**
 	 * Returns the identifier of the junction.

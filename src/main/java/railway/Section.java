@@ -1,6 +1,7 @@
 package railway;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * <p>
@@ -36,6 +37,7 @@ public class Section {
 	private final JunctionBranch endPoint1;
 	private final JunctionBranch endPoint2;
 	private final Set<JunctionBranch> endPoints = new HashSet<>();
+	private final Set<Junction> junctions = new HashSet<>();
 	
 	public void main(String[] args) {
 		if (args.length != 5) {
@@ -73,11 +75,13 @@ public class Section {
 			throw new IllegalArgumentException("Length must be positive.");
 		}
 		
-		this.length = length; 
+		this.length = length;
 		this.endPoint1 = endPoint1;
 		this.endPoint2 = endPoint2;
 		endPoints.add(endPoint1);
 		endPoints.add(endPoint2);
+		junctions.add(endPoint1.getJunction());
+		junctions.add(endPoint2.getJunction());
 	}
 	
 	/**
@@ -96,6 +100,15 @@ public class Section {
 	 */
 	public Set<JunctionBranch> getEndPoints() {
 		return endPoints;
+	}
+	
+	/**
+	 * Returns the junctions of the section.
+	 * 
+	 * @return a set of the junctions of the section.
+	 */
+	public Set<Junction> getJunctions() {
+		return junctions;
 	}
 	
 	/**
@@ -133,7 +146,7 @@ public class Section {
 	 */
 	@Override
 	public String toString() {
-		return String.format("%d $s %s", length, endPoint1, endPoint2);
+		return String.format("%d %s %s", length, endPoint1, endPoint2);
 	}
 	
 	/**
@@ -160,29 +173,27 @@ public class Section {
 		
 		Section other = (Section) obj;
 		if (length != other.length) {
+			// length isn't the same
 			return false;
 		}
-		if (endPoint1 == null) {
-			if (other.endPoint1 != null) {
-				return false;
-			}
-		} else if (!endPoint1.equals(other.endPoint1))
-			return false;
-		if (endPoint2 == null) {
-			if (other.endPoint2 != null) {
-				return false;
-			}
-		} else if (!endPoint2.equals(other.endPoint2)) {
-			return false;
+		
+		if (endPoint1.equals(other.endPoint1) && endPoint2.equals(other.endPoint2)) {
+			// endPoints are in the same order
+			return true;
 		}
-		return true;
+		if (endPoint1.equals(other.endPoint2) && endPoint2.equals(other.endPoint1)) {
+			// endPoints are swapped
+			return true;
+		}
+		return false;
 	}
 	
 	@Override
 	public int hashCode() {
 		final int prime = 37;
-		int result = prime + endPoint1.hashCode();
-		result = prime * result + endPoint2.hashCode();
+		// Use difference between hashes so that things like A+D don't equal B+C
+		int result = prime * Math.abs(endPoint1.hashCode() - endPoint2.hashCode());
+		result = prime * result + endPoint1.hashCode() + endPoint2.hashCode();
 		result = prime * result + length;
 		return result;
 	}

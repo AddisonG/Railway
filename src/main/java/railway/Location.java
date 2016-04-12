@@ -115,7 +115,7 @@ public class Location {
 	 * </p>
 	 * 
 	 * @return the offset of this location with respect to this.getEndPoint().
-	 * 		
+	 * 
 	 */
 	public int getOffset() {
 		return offset;

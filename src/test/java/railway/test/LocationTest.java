@@ -1,12 +1,17 @@
 package railway.test;
 
-import railway.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
-import static org.junit.Assert.*;
-
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+
+import railway.Branch;
+import railway.Junction;
+import railway.JunctionBranch;
+import railway.Location;
+import railway.Section;
 
 /**
  * Basic tests for the {@link Location} implementation class.
@@ -91,52 +96,6 @@ public class LocationTest {
 		
 		// the location under test
 		Location location = new Location(section, endPoint, offset);
-	}
-	
-	/**
-	 * Tests that two different section objects between the same two points are equal when:<br>
-	 * They have their parameters swapped.
-	 */
-	@Test
-	public void sectionSwapTest() {
-		Section original = new Section(1, A1, B1);
-		Section swapped = new Section(1, B1, A1);
-		
-		assertEquals("It's the same section if it's between the same JunctionBranches.", original, swapped);
-		assertNotEquals(original.hashCode(), swapped.hashCode());
-	}
-	
-	/**
-	 * Tests that two different section objects between the same two points are not equal when:<br>
-	 * They have different lengths.
-	 */
-	@Test
-	public void sectionLengthTest() {
-		// I don't think this is logically possible without a rip in space/time.
-		Section shorter = new Section(1, A1, B1);
-		Section longer = new Section(1000, A1, B1);
-		
-		assertNotEquals("Lengths are different == sections are different.", shorter, longer);
-		assertNotEquals(shorter.hashCode(), longer.hashCode());
-	}
-	
-	/**
-	 * Tests that two different section objects between the same two points are not equal when:<br>
-	 * The junctions have different branches.
-	 */
-	@Test
-	public void sectionBranchTest2() {
-		Section first = new Section(1, A1, B1);
-		Section second = new Section(1, A2, B1);
-		Section third = new Section(1, A1, B2);
-		Section fourth = new Section(1, A2, B2);
-		
-		assertNotEquals("The sections are not the same if the .", first, second);
-		assertNotEquals("Lengths are different, sections are different.", first, third);
-		assertNotEquals("Lengths are different, sections are different.", first, fourth);
-		assertNotEquals("Lengths are different, sections are different.", second, third);
-		assertNotEquals("Lengths are different, sections are different.", second, fourth);
-		assertNotEquals("Lengths are different, sections are different.", third, fourth);
 	}
 	
 	/** Basic check of the equals method */
