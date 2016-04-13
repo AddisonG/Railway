@@ -10,6 +10,8 @@ package railway;
  * three branches that connect it to sections of the track. It can have at most one branch of each
  * type. (I.e. a junction may have not have two branches of type Branch.FACING.)
  * </p>
+ * 
+ * @author Addison Gourluck
  */
 public class Junction {
 	

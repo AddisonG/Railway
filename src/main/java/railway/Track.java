@@ -17,7 +17,8 @@ import java.util.Set;
  * track, and it can have at most one branch of each type. (I.e. a junction may have not have two or
  * more branches of type Branch.FACING.)
  * </p>
- *
+ * 
+ * @author Addison Gourluck
  */
 public class Track implements Iterable<Section> {
 	

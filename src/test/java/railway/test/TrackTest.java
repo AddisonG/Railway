@@ -18,8 +18,7 @@ import railway.Track;
 /**
  * Basic tests for the {@link Track} implementation class.
  * 
- * A more extensive test suite will be performed for assessment of your code,
- * but this should get you started writing your own unit tests.
+ * @author Addison Gourluck
  */
 public class TrackTest {
 	

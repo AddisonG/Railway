@@ -29,6 +29,8 @@ import java.util.Set;
  * A section is uniquely identified by its length and two distinct end-points, where an end-point is
  * a junction and the branch that connects it to the section.
  * </p>
+ * 
+ * @author Addison Gourluck
  */
 public class Section {
 	
@@ -71,7 +73,7 @@ public class Section {
 			
 		if (endPoint1 == null || endPoint2 == null) {
 			throw new NullPointerException("Endpoint cannot be null.");
-		} else if (length <= 0) {
+		} else if (length <= 0 || endPoint1.equals(endPoint2)) {
 			throw new IllegalArgumentException("Length must be positive.");
 		}
 		

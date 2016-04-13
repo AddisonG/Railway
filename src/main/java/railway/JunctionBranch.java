@@ -4,6 +4,8 @@ package railway;
  * <p>
  * An immutable class used to identify a junction and one of its branches on a railway track.
  * </p>
+ * 
+ * @author Addison Gourluck
  */
 public class JunctionBranch {
 	

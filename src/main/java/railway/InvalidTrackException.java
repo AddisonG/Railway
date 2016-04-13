@@ -2,6 +2,8 @@ package railway;
 
 /**
  * An exception that is thrown to indicate an invalid track configuration.
+ * 
+ * @author Addison Gourluck
  */
 @SuppressWarnings("serial")
 public class InvalidTrackException extends RuntimeException {

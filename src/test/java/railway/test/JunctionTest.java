@@ -14,6 +14,8 @@ import railway.Junction;
 
 /**
  * Basic tests for the {@link Junction} implementation class.
+ * 
+ * @author Addison Gourluck
  */
 public class JunctionTest {
 	

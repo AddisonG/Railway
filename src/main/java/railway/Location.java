@@ -24,6 +24,8 @@ package railway;
  * junction, is represented as having a 0 offset from the junction along any branch of the junction.
  * For this reason, the equivalence method of this class is more complex than usual.
  * </p>
+ * 
+ * @author Addison Gourluck
  */
 public class Location {
 	

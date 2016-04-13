@@ -16,8 +16,7 @@ import railway.Section;
 /**
  * Basic tests for the {@link Location} implementation class.
  * 
- * A more extensive test suite will be performed for assessment of your code,
- * but this should get you started writing your own unit tests.
+ * @author Addison Gourluck
  */
 @SuppressWarnings("unused") // FOR NOW...
 public class LocationTest {
