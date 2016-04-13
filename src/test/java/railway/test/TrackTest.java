@@ -1,9 +1,19 @@
 package railway.test;
 
-import railway.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.junit.Assert;
 import org.junit.Test;
+
+import railway.Branch;
+import railway.InvalidTrackException;
+import railway.Junction;
+import railway.JunctionBranch;
+import railway.Section;
+import railway.Track;
 
 /**
  * Basic tests for the {@link Track} implementation class.
